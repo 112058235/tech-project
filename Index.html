@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 一級方程式賽車：速度與科技的巔峰</title>
+    <!-- 載入 Tailwind CSS CDN，用於快速建構響應式設計 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0c0c0c;
+            color: #e5e7eb;
+            scroll-behavior: smooth;
+        }
+
+        /* 自訂顏色和樣式 */
+        .f1-red { color: #E10600; }
+        .bg-f1-red { background-color: #E10600; }
+        .hero {
+            background-image: url('https://i.imgur.com/kS5kQ2N.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        /* 遊戲按鈕動畫 */
+        .game-button {
+            transition: all 0.3s ease;
+        }
+        .game-button:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 14px rgba(225, 6, 0, 0.5);
+        }
+        .game-button.correct {
+            background-color: #16a34a; /* green-600 */
+        }
+        .game-button.incorrect {
+            background-color: #dc2626; /* red-600 */
+        }
+
+        /* 彈跳視窗 */
+        .modal {
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- 導覽列 - 響應式設計，手機版會收合為漢堡選單 -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-black bg-opacity-70 backdrop-blur-sm shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="#hero" class="text-2xl font-bold f1-red">F1</a>
+            <nav id="nav-menu" class="hidden md:flex space-x-6 lg:space-x-10">
+                <a href="#about" class="text-white hover:f1-red transition-colors duration-300">關於 F1</a>
+                <a href="#history" class="text-white hover:f1-red transition-colors duration-300">歷史</a>
+                <a href="#tech" class="text-white hover:f1-red transition-colors duration-300">技術</a>
+                <a href="#drivers" class="text-white hover:f1-red transition-colors duration-300">車手</a>
+                <a href="#game" class="text-white hover:f1-red transition-colors duration-300">小遊戲</a>
+            </nav>
+            <!-- 手機版漢堡選單按鈕 -->
+            <button id="hamburger" class="md:hidden text-white focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- 手機版彈出式選單 -->
+        <div id="mobile-menu" class="md:hidden hidden bg-black bg-opacity-90 py-4">
+            <nav class="flex flex-col items-center space-y-4">
+                <a href="#about" class="text-white text-lg hover:f1-red transition-colors duration-300 w-full text-center py-2">關於 F1</a>
+                <a href="#history" class="text-white text-lg hover:f1-red transition-colors duration-300 w-full text-center py-2">歷史</a>
+                <a href="#tech" class="text-white text-lg hover:f1-red transition-colors duration-300 w-full text-center py-2">技術</a>
+                <a href="#drivers" class="text-white text-lg hover:f1-red transition-colors duration-300 w-full text-center py-2">車手</a>
+                <a href="#game" class="text-white text-lg hover:f1-red transition-colors duration-300 w-full text-center py-2">小遊戲</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- 主視覺區塊 (Hero Section) -->
+        <section id="hero" class="hero h-screen flex items-center justify-center text-center px-4">
+            <div class="bg-black bg-opacity-50 p-6 sm:p-10 rounded-xl max-w-2xl">
+                <h1 class="text-5xl sm:text-7xl font-extrabold text-white text-shadow leading-tight">
+                    F1 一級方程式賽車
+                </h1>
+                <p class="mt-4 sm:mt-6 text-lg sm:text-xl font-medium text-gray-200">
+                    速度、激情與科技的極致饗宴
+                </p>
+                <a href="#about" class="mt-8 inline-block bg-f1-red text-white font-bold py-3 px-8 rounded-full hover:bg-red-700 transition-transform transform hover:scale-105 duration-300">
+                    了解更多
+                </a>
+            </div>
+        </section>
+
+        <!-- 關於 F1 區塊 -->
+        <section id="about" class="py-20 px-4">
+            <div class="container mx-auto max-w-5xl">
+                <h2 class="text-4xl font-bold text-center mb-12 f1-red">關於 F1</h2>
+                <div class="md:flex md:items-center md:space-x-12">
+                    <div class="md:w-1/2 mb-8 md:mb-0">
+                        <img src="https://i.imgur.com/v8tT9oI.jpg" alt="F1 賽車比賽畫面" class="rounded-xl shadow-lg w-full">
+                    </div>
+                    <div class="md:w-1/2">
+                        <p class="text-lg leading-relaxed text-gray-300">
+                            F1 全名為「一級方程式賽車」（Formula One），是國際汽車聯盟（FIA）舉辦的最高等級方程式賽事。它代表了全球賽車運動的巔峰，集結了世界上最頂尖的車手、工程師和最前沿的汽車技術。每一場大獎賽不僅是對速度的極致追求，更是對策略、團隊合作與極限科技的嚴苛考驗。
+                        </p>
+                        <p class="mt-6 text-lg leading-relaxed text-gray-300">
+                            F1 賽季由一系列的「大獎賽」組成，通常在世界各地的專屬賽道上舉行。從摩納哥的街頭賽道到比利時的 Spa-Francorchamps 經典賽道，每一站都充滿了獨特的挑戰和傳奇時刻。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- F1 歷史區塊 -->
+        <section id="history" class="py-20 px-4 bg-gray-900">
+            <div class="container mx-auto max-w-5xl">
+                <h2 class="text-4xl font-bold text-center mb-12 f1-red">F1 的輝煌歷史</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="bg-gray-800 p-8 rounded-xl shadow-lg transition-transform transform hover:scale-105 duration-300">
+                        <h3 class="text-2xl font-bold mb-4 f1-red">1950s - 誕生</h3>
+                        <p class="text-gray-300">首屆世界錦標賽於 1950 年舉行，由傳奇車手朱塞佩·法里納（Giuseppe Farina）駕駛阿爾法·羅密歐奪得首個世界冠軍。</p>
+                    </div>
+                    <div class="bg-gray-800 p-8 rounded-xl shadow-lg transition-transform transform hover:scale-105 duration-300">
+                        <h3 class="text-2xl font-bold mb-4 f1-red">1970s - 空氣力學</h3>
+                        <p class="text-gray-300">空氣力學的興起改變了賽車設計，車隊開始探索底盤設計和地面效應，大幅提升了過彎速度。</p>
+                    </div>
+                    <div class="bg-gray-800 p-8 rounded-xl shadow-lg transition-transform transform hover:scale-105 duration-300">
+                        <h3 class="text-2xl font-bold mb-4 f1-red">1990s - 電子化</h3>
+                        <p class="text-gray-300">電子系統如牽引力控制和主動懸吊被廣泛應用，但隨後因過於昂貴和違反賽車精神而被禁用。</p>
+                    </div>
+                    <div class="bg-gray-800 p-8 rounded-xl shadow-lg transition-transform transform hover:scale-105 duration-300">
+                        <h3 class="text-2xl font-bold mb-4 f1-red">2020s - 永續未來</h3>
+                        <p class="text-gray-300">F1 賽事正朝著更環保的方向發展，推動混合動力技術和永續燃料的應用，以實現碳中和目標。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 賽車與技術區塊 -->
+        <section id="tech" class="py-20 px-4">
+            <div class="container mx-auto max-w-5xl">
+                <h2 class="text-4xl font-bold text-center mb-12 f1-red">賽車與尖端技術</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-gray-900 p-6 rounded-xl shadow-lg text-center">
+                        <img src="https://i.imgur.com/S2tJjF2.jpg" alt="F1 混合動力單元" class="rounded-lg mb-4 w-full h-48 object-cover">
+                        <h3 class="text-2xl font-semibold mb-2 f1-red">動力單元</h3>
+                        <p class="text-gray-400 text-sm">
+                            F1 採用 1.6 升 V6 渦輪增壓混合動力單元，結合了內燃機與兩個動能回收系統（MGU-H 和 MGU-K），可產生超過 1000 匹馬力。
+                        </p>
+                    </div>
+                    <div class="bg-gray-900 p-6 rounded-xl shadow-lg text-center">
+                        <img src="https://i.imgur.com/3N4027z.jpg" alt="F1 賽車底盤與空氣力學" class="rounded-lg mb-4 w-full h-48 object-cover">
+                        <h3 class="text-2xl font-semibold mb-2 f1-red">空氣力學</h3>
+                        <p class="text-gray-400 text-sm">
+                            F1 賽車的設計精髓在於空氣力學。複雜的車身、前翼、尾翼和導流板產生巨大的下壓力，使賽車能夠以驚人的速度過彎。
+                        </p>
+                    </div>
+                    <div class="bg-gray-900 p-6 rounded-xl shadow-lg text-center">
+                        <img src="https://i.imgur.com/8Q8D73B.jpg" alt="F1 方向盤" class="rounded-lg mb-4 w-full h-48 object-cover">
+                        <h3 class="text-2xl font-semibold mb-2 f1-red">方向盤</h3>
+                        <p class="text-gray-400 text-sm">
+                            現代 F1 方向盤是高度複雜的電腦，集成了數十個按鈕和旋鈕，用於控制引擎模式、煞車平衡、無線電通訊等多種功能。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 明星車手區塊 -->
+        <section id="drivers" class="py-20 px-4 bg-gray-900">
+            <div class="container mx-auto max-w-5xl">
+                <h2 class="text-4xl font-bold text-center mb-12 f1-red">明星車手</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-12">
+                    <!-- Max Verstappen 卡片 -->
+                    <div class="driver-card bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col sm:flex-row items-center transition-transform transform hover:scale-105 duration-300 cursor-pointer" data-driver="verstappen">
+                        <img src="https://i.imgur.com/vH4S2yG.jpg" alt="Max Verstappen" class="w-full sm:w-1/2 h-64 object-cover sm:rounded-none rounded-t-xl sm:rounded-l-xl">
+                        <div class="p-6 sm:p-8 flex-1">
+                            <h3 class="text-3xl font-bold mb-2 f1-red">Max Verstappen</h3>
+                            <p class="text-gray-400 mb-2"><strong>車隊:</strong> 紅牛車隊</p>
+                            <p class="text-gray-300 text-sm leading-relaxed">
+                                現役多屆世界冠軍，以其侵略性十足的駕駛風格和精準的超車技術聞名。他被視為新世代的 F1 傳奇人物。
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Lewis Hamilton 卡片 -->
+                    <div class="driver-card bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col sm:flex-row items-center transition-transform transform hover:scale-105 duration-300 cursor-pointer" data-driver="hamilton">
+                        <img src="https://i.imgur.com/tYm9hVp.jpg" alt="Lewis Hamilton" class="w-full sm:w-1/2 h-64 object-cover sm:rounded-none rounded-t-xl sm:rounded-l-xl">
+                        <div class="p-6 sm:p-8 flex-1">
+                            <h3 class="text-3xl font-bold mb-2 f1-red">Lewis Hamilton</h3>
+                            <p class="text-gray-400 mb-2"><strong>車隊:</strong> 賓士車隊</p>
+                            <p class="text-gray-300 text-sm leading-relaxed">
+                                F1 史上最成功的車手之一，擁有七次世界冠軍頭銜。他以其卓越的穩定性、賽道智慧和對多元化的貢獻而廣受敬重。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 互動遊戲區塊 -->
+        <section id="game" class="py-20 px-4 bg-gray-800">
+            <div class="container mx-auto max-w-2xl text-center">
+                <h2 class="text-4xl font-bold text-center mb-8 f1-red">猜猜 F1 車隊</h2>
+                <div class="bg-gray-900 p-8 rounded-xl shadow-lg">
+                    <img id="game-car-image" src="https://i.imgur.com/nJt6c7V.jpg" alt="F1 賽車" class="w-full rounded-lg mb-6">
+                    <p id="game-question" class="text-lg font-semibold mb-6">這輛車是哪個車隊的？</p>
+                    <div id="game-buttons" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- 按鈕將由 JavaScript 動態生成 -->
+                    </div>
+                    <p id="game-feedback" class="text-xl font-bold mt-6 min-h-[1.5rem]"></p>
+                    <button id="next-button" class="mt-6 bg-f1-red text-white py-2 px-6 rounded-full font-bold opacity-0 transition-opacity duration-300">下一題</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 彈出式視窗 (Modal) -->
+    <div id="driver-modal" class="modal fixed inset-0 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-gray-900 p-8 rounded-xl shadow-2xl max-w-4xl w-full mx-auto relative transform scale-95 transition-transform duration-300">
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors duration-300">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            <div class="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
+                <img id="modal-driver-img" src="" alt="Driver Image" class="w-48 h-48 rounded-full object-cover shadow-lg">
+                <div class="text-center md:text-left">
+                    <h3 id="modal-driver-name" class="text-4xl font-bold f1-red mb-2"></h3>
+                    <div id="modal-achievements" class="mt-4 text-left">
+                        <!-- 成就列表將由 JavaScript 動態生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for responsive menu and game logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navLinks = document.querySelectorAll('#mobile-menu a');
+            
+            // 漢堡選單邏輯
+            hamburger.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                const svgPath = hamburger.querySelector('path');
+                if (mobileMenu.classList.contains('hidden')) {
+                    svgPath.setAttribute('d', 'M4 6h16M4 12h16m-7 6h7');
+                } else {
+                    svgPath.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    hamburger.querySelector('path').setAttribute('d', 'M4 6h16M4 12h16m-7 6h7');
+                });
+            });
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 768) {
+                    mobileMenu.classList.add('hidden');
+                    hamburger.querySelector('path').setAttribute('d', 'M4 6h16M4 12h16m-7 6h7');
+                }
+            });
+
+            // 遊戲邏輯
+            const gameData = [
+                {
+                    image: 'https://i.imgur.com/nJt6c7V.jpg',
+                    answer: '法拉利車隊',
+                    options: ['法拉利車隊', '麥拉倫車隊', '賓士車隊', '紅牛車隊']
+                },
+                {
+                    image: 'https://i.imgur.com/uR2N8mC.jpg',
+                    answer: '紅牛車隊',
+                    options: ['威廉斯車隊', '法拉利車隊', '紅牛車隊', '阿爾卑斯車隊']
+                },
+                {
+                    image: 'https://i.imgur.com/V9r1y4H.jpg',
+                    answer: '賓士車隊',
+                    options: ['賓士車隊', '哈斯車隊', '奧斯頓·馬丁車隊', '小牛車隊']
+                },
+                {
+                    image: 'https://i.imgur.com/O45625Q.jpg',
+                    answer: '麥拉倫車隊',
+                    options: ['法拉利車隊', '麥拉倫車隊', '賓士車隊', '紅牛車隊']
+                }
+            ];
+
+            const gameCarImage = document.getElementById('game-car-image');
+            const gameButtonsContainer = document.getElementById('game-buttons');
+            const gameFeedback = document.getElementById('game-feedback');
+            const nextButton = document.getElementById('next-button');
+
+            let currentRoundIndex = -1;
+
+            // 隨機排列陣列
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+            }
+
+            function startGame() {
+                shuffleArray(gameData);
+                currentRoundIndex = 0;
+                loadQuestion();
+            }
+
+            function loadQuestion() {
+                if (currentRoundIndex >= gameData.length) {
+                    gameFeedback.textContent = '恭喜你完成了所有挑戰！';
+                    nextButton.style.opacity = '0';
+                    return;
+                }
+
+                const currentData = gameData[currentRoundIndex];
+                gameCarImage.src = currentData.image;
+                gameButtonsContainer.innerHTML = ''; // 清除舊按鈕
+                gameFeedback.textContent = '';
+                nextButton.style.opacity = '0';
+
+                // 隨機排列選項
+                shuffleArray(currentData.options);
+
+                currentData.options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.textContent = option;
+                    button.className = 'game-button w-full bg-gray-700 text-white font-bold py-3 px-4 rounded-xl shadow-md hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed';
+                    button.dataset.answer = option;
+                    button.addEventListener('click', handleGuess);
+                    gameButtonsContainer.appendChild(button);
+                });
+            }
+
+            function handleGuess(event) {
+                const selectedAnswer = event.target.dataset.answer;
+                const correctAnswer = gameData[currentRoundIndex].answer;
+                
+                // 停用所有按鈕
+                const buttons = gameButtonsContainer.querySelectorAll('button');
+                buttons.forEach(btn => {
+                    btn.disabled = true;
+                    if (btn.dataset.answer === correctAnswer) {
+                        btn.classList.add('correct');
+                    } else if (btn.dataset.answer === selectedAnswer) {
+                        btn.classList.add('incorrect');
+                    }
+                });
+
+                if (selectedAnswer === correctAnswer) {
+                    gameFeedback.textContent = '✅ 正確！你猜對了！';
+                    gameFeedback.style.color = '#16a34a'; // green-600
+                } else {
+                    gameFeedback.textContent = `❌ 錯誤！正確答案是 ${correctAnswer}。`;
+                    gameFeedback.style.color = '#dc2626'; // red-600
+                }
+                nextButton.style.opacity = '1';
+            }
+
+            nextButton.addEventListener('click', () => {
+                currentRoundIndex++;
+                loadQuestion();
+            });
+
+            // 啟動遊戲
+            startGame();
+
+
+            // 彈跳視窗邏輯
+            const driverData = {
+                verstappen: {
+                    name: "Max Verstappen",
+                    image: "https://i.imgur.com/vH4S2yG.jpg",
+                    achievements: [
+                        "🏆 世界冠軍：2021, 2022, 2023",
+                        "🏁 生涯分站冠軍數：61+ (截至 2024 年)",
+                        "⏱️ 生涯頒獎台數：105+ (截至 2024 年)",
+                        "⚡ 史上最年輕參賽車手 (17歲)",
+                        "💪 以其侵略性超車風格聞名"
+                    ]
+                },
+                hamilton: {
+                    name: "Lewis Hamilton",
+                    image: "https://i.imgur.com/tYm9hVp.jpg",
+                    achievements: [
+                        "🏆 世界冠軍：7 次 (與 Michael Schumacher 並列)",
+                        "🏁 史上最多分站冠軍數：103",
+                        "⏱️ 史上最多桿位數：104",
+                        "✨ 生涯頒獎台數：198+",
+                        "🏅 英國爵士爵位受封"
+                    ]
+                }
+            };
+
+            const driverCards = document.querySelectorAll('.driver-card');
+            const modal = document.getElementById('driver-modal');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const modalDriverName = document.getElementById('modal-driver-name');
+            const modalDriverImg = document.getElementById('modal-driver-img');
+            const modalAchievements = document.getElementById('modal-achievements');
+
+            driverCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const driverKey = card.dataset.driver;
+                    const driver = driverData[driverKey];
+
+                    if (driver) {
+                        modalDriverName.textContent = driver.name;
+                        modalDriverImg.src = driver.image;
+                        modalDriverImg.alt = driver.name;
+                        
+                        modalAchievements.innerHTML = ''; // 清空舊內容
+                        driver.achievements.forEach(achievement => {
+                            const p = document.createElement('p');
+                            p.className = 'text-gray-300 text-lg mb-2';
+                            p.textContent = achievement;
+                            modalAchievements.appendChild(p);
+                        });
+
+                        modal.classList.remove('hidden');
+                    }
+                });
+            });
+
+            closeModalBtn.addEventListener('click', () => {
+                modal.classList.add('hidden');
+            });
+
+            // 點擊彈跳視窗外區域關閉
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
